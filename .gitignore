@@ -1,0 +1,158 @@
+# ==============================================================================
+# BuildCycle AI - Root .gitignore
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. Environment Variables & Secrets (CRITICAL)
+# ------------------------------------------------------------------------------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.cert
+*.p12
+
+# Frontend environment files
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+
+# ------------------------------------------------------------------------------
+# 2. Python & Bytecode
+# ------------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ------------------------------------------------------------------------------
+# 3. Virtual Environments
+# ------------------------------------------------------------------------------
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# ------------------------------------------------------------------------------
+# 4. Testing, Coverage & Type Checking
+# ------------------------------------------------------------------------------
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.tox/
+.nox/
+.ruff_cache/
+.mypy_cache/
+
+# ------------------------------------------------------------------------------
+# 5. Node / Frontend (React + TypeScript + Vite)
+# ------------------------------------------------------------------------------
+node_modules/
+*/node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+*.tsbuildinfo
+
+# ------------------------------------------------------------------------------
+# 6. Datasets & Raw Training/Validation/Testing Images (600MB+)
+# ------------------------------------------------------------------------------
+data/training/
+data/validation/
+data/testing/
+data/*.zip
+data/*.tar.gz
+data/*.rar
+data/*.7z
+# Keep data folder structure placeholder if desired
+!data/.gitkeep
+
+# ------------------------------------------------------------------------------
+# 7. Machine Learning / YOLO Training Runs & Weights
+# ------------------------------------------------------------------------------
+# Ultralytics auto-generated directories & checkpoint files
+runs/
+runs/**
+*.pt.cache
+*.engine
+*.onnx
+
+# NOTE: models/best.pt is ~87.7 MB.
+# It is under GitHub's 100 MB hard limit, so GitHub will accept it (with a >50MB warning).
+# If you prefer to exclude model weights from GitHub and host them externally (e.g. Zenodo/HuggingFace),
+# uncomment the line below:
+# models/*.pt
+
+# ------------------------------------------------------------------------------
+# 8. Local Databases & SQLite
+# ------------------------------------------------------------------------------
+*.sqlite3
+*.db
+*.sqlite
+
+# ------------------------------------------------------------------------------
+# 9. IDE, OS & System Files
+# ------------------------------------------------------------------------------
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Linux
+*~
+
+# Editors / IDEs
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+
+# Antigravity / AI agent scratch files
+.agents/
+.gemini/
