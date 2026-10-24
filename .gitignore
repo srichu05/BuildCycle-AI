@@ -39,10 +39,16 @@ sdist/
 var/
 wheels/
 *.egg-info/
-.installed.cfg
 *.egg
 MANIFEST
 
+# Compressed Archives & Bundles
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z
 # ------------------------------------------------------------------------------
 # 3. Virtual Environments
 # ------------------------------------------------------------------------------
