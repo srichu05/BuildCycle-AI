@@ -49,13 +49,29 @@ app = FastAPI(
 
 # CORS Middleware
 origins = settings.CORS_ORIGINS if isinstance(settings.CORS_ORIGINS, list) else [settings.CORS_ORIGINS]
+is_wildcard = "*" in origins
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_credentials=True,
+    allow_origin_regex=r"^https://.*\.vercel\.app$" if not is_wildcard else None,
+    allow_credentials=not is_wildcard,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.get("/", tags=["Root"])
+def root():
+    """Service status and quick links for browser/monitoring checks."""
+    return {
+        "service": "BuildCycle AI Backend",
+        "status": "online",
+        "version": "1.0.0",
+        "docs": "/docs",
+        "health": "/api/v1/health/live",
+    }
+
 
 # Mount API v1 router
 app.include_router(api_router, prefix="/api/v1")

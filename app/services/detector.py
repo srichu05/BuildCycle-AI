@@ -64,6 +64,13 @@ class DetectorService:
 
         try:
             from ultralytics import YOLO
+            import torch
+
+            # Optimize thread pool for constrained CPU environments (e.g. Render Free)
+            try:
+                torch.set_num_threads(min(2, os.cpu_count() or 1))
+            except Exception:
+                pass
 
             logger.info(f"Loading YOLO model weights from {model_path}...")
             self.model = YOLO(model_path)
@@ -126,14 +133,19 @@ class DetectorService:
         conf = confidence_threshold if confidence_threshold is not None else settings.MODEL_CONFIDENCE_THRESHOLD
         iou = settings.MODEL_IOU_THRESHOLD
 
+        import torch
+
         start_time = time.perf_counter()
         try:
-            results = self.model.predict(
-                image,
-                conf=conf,
-                iou=iou,
-                verbose=False,
-            )
+            with torch.inference_mode():
+                results = self.model.predict(
+                    image,
+                    imgsz=640,
+                    device="cpu",
+                    conf=conf,
+                    iou=iou,
+                    verbose=False,
+                )
         except Exception as e:
             logger.error(f"Inference error: {str(e)}")
             raise InferenceFailedError(f"Model inference failed: {str(e)}")
