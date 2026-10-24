@@ -7,9 +7,10 @@ import type {
 } from '../types/analysis';
 import { sampleAnalysisRubble } from '../data/mockAnalysisData';
 
-// Configurable FastAPI backend base URL
-export const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+// Configurable FastAPI backend base URL (strips any trailing slash)
+export const API_BASE_URL = (
+  import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'
+).replace(/\/+$/, '');
 
 export interface ApiError {
   message: string;
@@ -180,7 +181,8 @@ export async function analyzeWasteImage(
 
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 45000); // 45s timeout for model inference
+    // 75s timeout to accommodate Render Free cold starts (which can take 50-60s)
+    const timeoutId = setTimeout(() => controller.abort(), 75000);
 
     const response = await fetch(`${API_BASE_URL}/api/v1/analyses`, {
       method: 'POST',
@@ -218,7 +220,7 @@ export async function analyzeWasteImage(
     const error = err as { name?: string; message?: string; statusCode?: number; details?: string };
     if (error.name === 'AbortError') {
       throw {
-        message: 'Request timed out after 45 seconds. The model might be loading weights on the server.',
+        message: 'Request timed out after 75 seconds. If the backend is hosted on Render Free, the service may be spinning up from sleep. Please wait a moment and try again.',
         isBackendUnavailable: true,
       } as ApiError;
     }
@@ -232,7 +234,7 @@ export async function analyzeWasteImage(
       throw {
         message: `Unable to connect to FastAPI backend at ${API_BASE_URL}.`,
         details:
-          'Ensure the FastAPI service is running locally on port 8000 (e.g. `python -m uvicorn app.main:app --reload --port 8000`). You can continue testing using "Interactive Demo Mode".',
+          'Ensure the backend service is running or has finished spinning up on Render. You can also test with "Interactive Demo Mode".',
         isBackendUnavailable: true,
       } as ApiError;
     }
@@ -312,7 +314,8 @@ export async function checkBackendHealth(): Promise<{
 }> {
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 2500);
+    // 6s timeout to account for cross-region latency
+    const timeoutId = setTimeout(() => controller.abort(), 6000);
 
     const response = await fetch(`${API_BASE_URL}/api/v1/health/live`, {
       method: 'GET',
