@@ -45,9 +45,12 @@ class Settings(BaseSettings):
         if not self.DATABASE_URL:
             return None
         url = self.DATABASE_URL.strip()
-        # Render / Neon often provides postgres:// which SQLAlchemy 1.4+ rejects in favor of postgresql://
+        # Render / Neon often provides postgres:// which SQLAlchemy 1.4+ rejects
         if url.startswith("postgres://"):
-            url = url.replace("postgres://", "postgresql://", 1)
+            url = url.replace("postgres://", "postgresql+psycopg2://", 1)
+        elif url.startswith("postgresql://") and "+psycopg" not in url:
+            # Explicitly route to psycopg2 to avoid SQLAlchemy 2.1 defaulting to uninstalled psycopg3
+            url = url.replace("postgresql://", "postgresql+psycopg2://", 1)
         return url
 
 
