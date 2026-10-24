@@ -1,0 +1,165 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-primary: #097e51;
+    --color-primary-dark: #1c503a;
+    --color-primary-light: #e6f4ee;
+    --color-accent: #dfb163;
+    --color-bg-soft: #f4f8f6;
+    --color-surface: #ffffff;
+    --color-text-main: #1f2937;
+    --color-text-muted: #64748b;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Rethink Sans', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+
+  body {
+    background-color: #fafbf9;
+    color: #1e293b;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Rethink Sans', sans-serif;
+    color: #1c503a;
+  }
+}
+
+/* Custom utility & component classes echoing the Ecotrix design system */
+.theme-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: #097e51;
+  color: #ffffff;
+  font-weight: 600;
+  padding: 0.875rem 1.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid #097e51;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 14px 0 rgba(9, 126, 81, 0.25);
+  cursor: pointer;
+}
+
+.theme-btn:hover {
+  background-color: #1c503a;
+  border-color: #1c503a;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px 0 rgba(9, 126, 81, 0.35);
+}
+
+.theme-btn:active {
+  transform: translateY(0);
+}
+
+.white-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: #ffffff;
+  color: #1c503a;
+  font-weight: 600;
+  padding: 0.875rem 1.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+}
+
+.white-btn:hover {
+  background-color: #097e51;
+  color: #ffffff;
+  border-color: #097e51;
+  transform: translateY(-2px);
+}
+
+.bordered-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: transparent;
+  color: #1c503a;
+  font-weight: 600;
+  padding: 0.875rem 1.75rem;
+  border-radius: 0.5rem;
+  border: 1.5px solid #1c503a;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.bordered-btn:hover {
+  background-color: #1c503a;
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.sub-title-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #097e51;
+  background-color: #e6f4ee;
+  padding: 0.375rem 0.875rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(9, 126, 81, 0.15);
+}
+
+.sub-title-badge-white {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  padding: 0.375rem 0.875rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+/* Glassmorphism card */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+/* Scanning line animation for the AI Preview */
+@keyframes scanline {
+  0% {
+    top: 0%;
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    top: 98%;
+    opacity: 0.8;
+  }
+}
+
+.ai-scanline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #10b981, #34d399, transparent);
+  box-shadow: 0 0 15px #10b981, 0 0 30px #10b981;
+  animation: scanline 2.5s ease-in-out infinite alternate;
+}
